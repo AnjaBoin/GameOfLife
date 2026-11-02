@@ -11,14 +11,14 @@ public class Rules {
         int amountNeighbours = 0;
 
         // determine how many neighbours are living
-        for (int h = -1; h <= 1; h++){
-            for (int w = -1; w <= 1; w++){
-                if (h == 0 && w == 0) {
+        for (int height = -1; height <= 1; height++){
+            for (int width = -1; width <= 1; width++){
+                if (height == 0 && width == 0) {
                     continue;
                 }
 
-                int r = row + h;
-                int c = col + w;
+                int r = row + height;
+                int c = col + width;
 
                 // disregard positions on outside board
                 if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) {
@@ -30,8 +30,7 @@ public class Rules {
                 }
             }
         }
-        // switch case of cell lives or dies
-
+        // switch case determines cell lives or dies
         switch(amountNeighbours) {
             case 0, 1 -> cell = false;
             case 3 -> cell = true;

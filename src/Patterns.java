@@ -111,7 +111,7 @@ public enum Patterns {
         return output.toString();
     }
 
-    // Extra: zodat een JComboBox "Glider" toont
+    // Amendment, so JCombo Dropdown will show names
     @Override
     public String toString() {
         return displayName;
