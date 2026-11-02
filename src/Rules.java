@@ -7,7 +7,7 @@ public class Rules {
 
     }
 
-    public boolean checkNeighbours(boolean[][] board, int row, int col, boolean cell){
+    public static boolean checkNeighbours(boolean[][] board, int row, int col, boolean cell){
         int amountNeighbours = 0;
 
         // determine how many neighbours are living
@@ -40,7 +40,7 @@ public class Rules {
     return cell;
     }
 
-    public boolean[][] nextGen(boolean[][] board){
+    public static boolean[][] nextGen(boolean[][] board){
         boolean[][]newBoard = new boolean [board.length][board[0].length];
         for (int row = 0; row < board.length; row ++){
             for (int col = 0; col < board[row].length; col++){
