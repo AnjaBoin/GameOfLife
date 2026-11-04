@@ -4,8 +4,8 @@ public class Board {
     // how to
 
     // CONSTANTS
-    static final int BOARD_HEIGHT = 40;
-    static final int BOARD_WIDTH = 80;
+    static final int BOARD_HEIGHT = 240;
+    static final int BOARD_WIDTH = 480;
     private static final int STANDARD_DENSITY = 30;
 
     // FIELD

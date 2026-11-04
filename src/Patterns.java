@@ -21,7 +21,7 @@ public enum Patterns {
     MANGO("Mango", ".OO..", "O..O.", ".O..O", "..OO."),
     LONG_BARGE("Long Barge", ".O...", "O.O..", ".O.O.","..O.O", "...O."),
     HALF_FLEET("Half Fleet", "OO....", "O.O...", ".OO...", "...OO.", "...O.O", "....OO"),
-    BIG_S("Big S", ".....O..", "....O..O.", "....O.OO.", ".OO..O....", ".O..O....", "..OO....."),
+    BIG_S("Big S", ".....OO.", "....O..O", "....O.OO", ".OO.O...", ".O..O...", "..OO...."),
     BLINKER_SHIP("Blinker Ship", "............O..O...............",
                              "...........O...................",
                              "...........O...O...............",
@@ -93,7 +93,6 @@ public enum Patterns {
     public String getDisplayName() {
         return displayName;
     }
-
     public String[] getRows() {
         return rows;
     }
@@ -109,6 +108,16 @@ public enum Patterns {
             output.deleteCharAt(output.length()-1);
         }
         return output.toString();
+    }
+
+    // construct pattern into boolean array
+    public boolean [][] constructPattern(){
+        boolean[][] pattern = new boolean[rows.length][rows[0].length()];
+        for (int row = 0; row < rows.length; row++){
+            
+        }
+
+        return pattern;
     }
 
     // Amendment, so JCombo Dropdown will show names

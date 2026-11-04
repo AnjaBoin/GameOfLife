@@ -14,7 +14,7 @@ public class Frame extends JFrame {
     private static final int VALUE_SPINNER = 50;
     private static final int MIN_SPINNER = 0;
     private static final int MAX_SPINNER = 100;
-    private static final int STEP_SPINNER = 1;
+    private static final int STEP_SPINNER = 5;
 
     private Board board = new Board();
     private Cells cells = new Cells(board);
@@ -46,7 +46,8 @@ public class Frame extends JFrame {
                 cells.repaint();
             }
         });
-        showButton(panel, spinner, timer);
+        panel.add(createRandomButton(spinner));
+        panel.add(createStartStopButton(timer));
 
 
 
@@ -58,20 +59,31 @@ public class Frame extends JFrame {
     }
 
 
-    public void showButton(JPanel panel, JSpinner spinner, Timer timer) {
-        JButton buttonSpinner = new JButton("Random");
-        buttonSpinner.setFont(new Font("SansSerif", Font.BOLD, 16));
-        JButton buttonTimer = new JButton("Start");
-        buttonTimer.setFont(new Font("SansSerif", Font.BOLD, 16));
+    // creates a button with the standard layout
+    private JButton createButton(String text) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("SansSerif", Font.BOLD, 16));
+        return button;
+    }
+
+    // button that fills the board randomly
+    private JButton createRandomButton(JSpinner spinner) {
+        JButton buttonSpinner = createButton("Random");
 
         buttonSpinner.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int value = (int) spinner.getValue();
                 board.randomiseBoard(value);
                 cells.repaint();
-
             }
         });
+
+        return buttonSpinner;
+    }
+
+    // button that starts and stops the timer
+    private JButton createStartStopButton(Timer timer) {
+        JButton buttonTimer = createButton("Start");
 
         buttonTimer.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -82,13 +94,14 @@ public class Frame extends JFrame {
                     timer.start();
                     buttonTimer.setText("Stop");
                 }
-
-
             }
         });
-        panel.add(buttonSpinner);
-        panel.add(buttonTimer);
+
+        return buttonTimer;
     }
+
+    // Button that creates patterns
+
 
 
 

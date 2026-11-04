@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Cells extends JPanel {
     // CONSTANTS
-    private static final int CELL_SIZE = 10;
+    private static final int CELL_SIZE = 5;
     private static final Color COLOR_LIVING = Color.WHITE;
     private static final Color COLOR_DEAD = Color.BLACK;
     private final Board board;
