@@ -7,6 +7,10 @@ public class Rules {
 
     }
 
+    public static boolean insideBoard(boolean[][] board, int row, int col){
+        return ((row >= 0 && row < board.length) && (col >= 0 && col < board[0].length));
+    }
+
     public static boolean checkNeighbours(boolean[][] board, int row, int col, boolean cell){
         int amountNeighbours = 0;
 
@@ -21,7 +25,7 @@ public class Rules {
                 int c = col + width;
 
                 // disregard positions on outside board
-                if (r < 0 || r >= board.length || c < 0 || c >= board[0].length) {
+                if (!insideBoard(board, r, c)) {
                     continue;
                 }
 

@@ -66,4 +66,43 @@ public class Board {
         randomiseBoard(STANDARD_DENSITY);
     }
 
+    // places pattern in the board
+    public void placePattern(Patterns pattern, int row, int col){
+        boolean [][]patternGrid = pattern.getRowsBool();
+
+        for (int r = 0; r < patternGrid.length; r++){
+            for (int c = 0; c < patternGrid[0].length; c++){
+                int boardRow = row + r;
+                int boardCol = col + c;
+
+                // skip positions outside the board
+                if (!Rules.insideBoard(grid, boardRow, boardCol)) {
+                    continue;
+                }
+                // copy value from pattern to board
+                setCell(boardRow, boardCol, patternGrid[r][c]);
+            }
+        }
+    }
+
+    // places pattern in the board
+    public void showAllPatterns(Patterns pattern){
+        randomiseBoard(0);
+        boolean [][]patternGrid = pattern.getRowsBool();
+
+        int cursorRow = 5;
+        int cursorCol = 5;
+        int gap = 5;
+        int lineHeight = 0;
+
+        for (Patterns p : Patterns.values()){
+                // skip positions outside the board
+                if (!Rules.insideBoard(grid, cursorRow, cursorCol)) {
+                    continue;
+                }
+                // place pattern one the board
+                placePattern(p, cursorRow, cursorCol);
+        }
+    }
+
 }

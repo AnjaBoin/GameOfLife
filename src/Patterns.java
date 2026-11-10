@@ -5,6 +5,7 @@
 
 public enum Patterns {
     //CONSTANTS
+    PIXEL("Pixel", "O"),
     GLIDER("Glider", ".O.", "..O", "OOO"),
     BLINKER("Blinker", "OOO"),
     BLOCK("Block", "OO", "OO"),
@@ -82,11 +83,13 @@ public enum Patterns {
     // FIELDS
     private final String displayName;
     private final String[] rows;
+    private final boolean[][] rowsBool;
 
     // CONSTRUCTOR
     Patterns(String displayName, String... rows){
         this.displayName = displayName;
         this.rows = rows;
+        this.rowsBool = constructPattern();
     }
 
     // GETTERS
@@ -96,6 +99,7 @@ public enum Patterns {
     public String[] getRows() {
         return rows;
     }
+    public boolean[][] getRowsBool(){return rowsBool;}
 
     // Preview to show pattern
     public String getPreview(){
@@ -114,7 +118,17 @@ public enum Patterns {
     public boolean [][] constructPattern(){
         boolean[][] pattern = new boolean[rows.length][rows[0].length()];
         for (int row = 0; row < rows.length; row++){
-            
+            for (int character = 0; character < rows[row].length(); character ++){
+                if (rows[row].charAt(character) == 'O'){
+                    pattern[row][character] = true;
+                } else if (rows[row].charAt(character) == '.'){
+                    pattern[row][character] = false;
+                } else {
+                    throw new IllegalArgumentException(
+                    String.format("Pattern %s has another char in the String than . or O in row %d and in character %d", displayName, row, character));
+                }
+
+            }
         }
 
         return pattern;
