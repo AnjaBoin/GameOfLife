@@ -7,6 +7,8 @@ public class Board {
     static final int BOARD_HEIGHT = 240;
     static final int BOARD_WIDTH = 480;
     private static final int STANDARD_DENSITY = 30;
+    private static final int GAP = 40;
+    private static final int MARGIN = 5;
 
     // FIELD
     private boolean [][] grid;
@@ -95,23 +97,33 @@ public class Board {
         nextGrid = temp;
     }
 
-    // places pattern in the board - NOG DOEN!!! is nog niet af
-    public void showAllPatterns(Patterns pattern){
+    // places pattern in the board
+    public void showAllPatterns(){
         randomiseBoard(0);
-        boolean [][]patternGrid = pattern.getRowsBool();
 
-        int cursorRow = 5;
-        int cursorCol = 5;
-        int gap = 5;
+        int cursorRow = MARGIN;
+        int cursorCol = MARGIN;
+
         int lineHeight = 0;
 
         for (Patterns p : Patterns.values()){
-                // skip positions outside the board
-                if (!Rules.insideBoard(grid, cursorRow, cursorCol)) {
-                    continue;
-                }
-                // place pattern one the board
-                placePattern(p, cursorRow, cursorCol);
+            // if pattern does not fit on line: next line
+            if (cursorCol + p.getWidth() + MARGIN > BOARD_WIDTH) {
+                cursorRow += lineHeight + GAP;
+                cursorCol = MARGIN;
+                lineHeight = 0;
+            }
+
+            // if pattern does not fit on board: skip
+            if (cursorRow + p.getHeight() + MARGIN > BOARD_HEIGHT) {
+                continue;
+            }
+
+            placePattern(p, cursorRow, cursorCol);
+
+            // adjust lineHeight with pattern height & jump next position
+            lineHeight = Math.max(lineHeight, p.getHeight());
+            cursorCol += p.getWidth() + GAP;
         }
     }
 

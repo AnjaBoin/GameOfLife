@@ -60,6 +60,7 @@ public class Frame extends JFrame {
         panelButtons.add(createRandomButton(spinner));
         panelButtons.add(createStartStopButton(timer));
         panelButtons.add(createEmptyButton());
+        panelButtons.add(createShowPatterns());
 
 
         // last piece
@@ -139,7 +140,17 @@ public class Frame extends JFrame {
         return comboBox;
     }
 
-    // Button that creates patterns
+    // Button that shows all the patterns
+    private JButton createShowPatterns(){
+        JButton button = createButton("Show patterns");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.showAllPatterns();
+                cells.repaint();
+            }
+        });
+        return button;
+    }
 
 
 

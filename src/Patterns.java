@@ -100,6 +100,9 @@ public enum Patterns {
         return rows;
     }
     public boolean[][] getRowsBool(){return rowsBool;}
+    public int getWidth(){return rows[0].length();}
+    public int getHeight(){return rows.length;}
+
 
     // Preview to show pattern
     public String getPreview(){
