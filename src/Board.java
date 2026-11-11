@@ -10,10 +10,12 @@ public class Board {
 
     // FIELD
     private boolean [][] grid;
+    private boolean [][] nextGrid;
 
     // CONSTRUCTOR
     public Board(){
         grid = new boolean[BOARD_HEIGHT][BOARD_WIDTH];
+        nextGrid = new boolean[grid.length][grid[0].length];
     }
 
     // getter
@@ -85,7 +87,15 @@ public class Board {
         }
     }
 
-    // places pattern in the board
+    // changes the generation
+    public void nextGeneration(){
+        Rules.nextGen(grid, nextGrid);
+        boolean[][]temp = grid;
+        grid = nextGrid;
+        nextGrid = temp;
+    }
+
+    // places pattern in the board - NOG DOEN!!! is nog niet af
     public void showAllPatterns(Patterns pattern){
         randomiseBoard(0);
         boolean [][]patternGrid = pattern.getRowsBool();

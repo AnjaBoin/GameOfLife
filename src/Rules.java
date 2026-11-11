@@ -44,15 +44,13 @@ public class Rules {
     return cell;
     }
 
-    public static boolean[][] nextGen(boolean[][] board){
-        boolean[][]newBoard = new boolean [board.length][board[0].length];
+    public static void nextGen(boolean[][] board, boolean[][] newBoard){
         for (int row = 0; row < board.length; row ++){
             for (int col = 0; col < board[row].length; col++){
                 boolean cell = board[row][col];
                 newBoard[row][col] = checkNeighbours(board, row, col, cell);
             }
         }
-    return newBoard;
     }
 
 }

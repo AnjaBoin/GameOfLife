@@ -19,7 +19,6 @@ public class Frame extends JFrame {
 
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
-    private final Rules rules = new Rules();
 
     private JComboBox<Patterns> comboBox;
 
@@ -30,6 +29,7 @@ public class Frame extends JFrame {
 
         // Control panel
         JPanel panel = new JPanel();
+        JPanel panelSettings = new JPanel();
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new GridLayout(1,4, 10, 0));
         SpinnerNumberModel model = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
@@ -37,10 +37,11 @@ public class Frame extends JFrame {
         comboBox = createComboBox();
         JLabel labelSpinner = createLabel("Density %");
         JLabel labelCombo = createLabel("Pattern: ");
-        panel.add(labelSpinner);
-        panel.add(spinner);
-        panel.add(labelCombo);
-        panel.add(comboBox);
+        panelSettings.add(labelSpinner);
+        panelSettings.add(spinner);
+        panelSettings.add(labelCombo);
+        panelSettings.add(comboBox);
+        panel.add(panelSettings);
         panel.add(panelButtons);
 
 
@@ -52,7 +53,7 @@ public class Frame extends JFrame {
         Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                board.setGrid(rules.nextGen(board.getGrid()));
+                board.nextGeneration();
                 cells.repaint();
             }
         });
@@ -134,7 +135,6 @@ public class Frame extends JFrame {
     private JComboBox<Patterns> createComboBox() {
         comboBox = new JComboBox<Patterns>(Patterns.values());
         comboBox.setFont(STANDARD_FONT);
-
 
         return comboBox;
     }
