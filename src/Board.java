@@ -4,8 +4,8 @@ public class Board {
     // how to
 
     // CONSTANTS
-    static final int BOARD_HEIGHT = 240;
-    static final int BOARD_WIDTH = 480;
+    static final int BOARD_HEIGHT = 400;
+    static final int BOARD_WIDTH = 800;
     private static final int STANDARD_DENSITY = 30;
     private static final int GAP = 40;
     private static final int MARGIN = 5;
@@ -131,7 +131,7 @@ public class Board {
 
     // places a random pattern on the board
     public void placeRandomPattern(){
-        int randomPattern = Rules.randomBetween(0, Patterns.values().length);
+        int randomPattern = Rules.randomBetween(0, Patterns.values().length-1);
         Patterns pattern = Patterns.values()[randomPattern];
         int []coordinates = Rules.randomCoordinate(pattern);
         placePattern(pattern, coordinates[0], coordinates[1]);

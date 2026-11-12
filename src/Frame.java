@@ -19,6 +19,8 @@ public class Frame extends JFrame {
 
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
+    private final JComboBox<Patterns> patternBox = new JComboBox<>(Patterns.values());
+    private final JToggleButton drawToggle = new JToggleButton("Drawing");
 
     private JComboBox<Patterns> comboBox;
 
@@ -61,15 +63,23 @@ public class Frame extends JFrame {
         panelButtons.add(createStartStopButton(timer));
         panelButtons.add(createEmptyButton());
         panelButtons.add(createShowPatterns());
-        panelButtons.add(placeRandomPattern());
+        panelButtons.add(createRandomPattern());
 
 
         // last piece
+        // adjusts frame to fit for items within it
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+
+    // setup for the mouse
+    private void setupMouse(){
+        Movements movements = new Movements(board, cells, patternBox, drawToggle);
+        cells.addMouseListener(movements);
+        cells.addMouseMotionListener(movements);
+    }
 
     // creates a standard label
     private JLabel createLabel(String text) {
@@ -154,7 +164,7 @@ public class Frame extends JFrame {
     }
 
     // Button that places a random pattern on the board
-    private JButton placeRandomPattern(){
+    private JButton createRandomPattern(){
         JButton button = createButton("Place random pattern");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
