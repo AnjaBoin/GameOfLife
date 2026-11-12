@@ -61,6 +61,7 @@ public class Frame extends JFrame {
         panelButtons.add(createStartStopButton(timer));
         panelButtons.add(createEmptyButton());
         panelButtons.add(createShowPatterns());
+        panelButtons.add(placeRandomPattern());
 
 
         // last piece
@@ -146,6 +147,18 @@ public class Frame extends JFrame {
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 board.showAllPatterns();
+                cells.repaint();
+            }
+        });
+        return button;
+    }
+
+    // Button that places a random pattern on the board
+    private JButton placeRandomPattern(){
+        JButton button = createButton("Place random pattern");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.placeRandomPattern();
                 cells.repaint();
             }
         });

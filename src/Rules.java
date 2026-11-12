@@ -7,8 +7,29 @@ public class Rules {
 
     }
 
+    // checks if a cell fits the board
     public static boolean insideBoard(boolean[][] board, int row, int col){
         return ((row >= 0 && row < board.length) && (col >= 0 && col < board[0].length));
+    }
+
+    // returns a random coordinate between limits
+    public static int randomBetween(int min, int max){
+        return min + (int) (Math.random() * (max - min + 1));
+    }
+
+    // returns random coordinates for a pattern which fits the board
+    // coordinates[0] is row, coordinates[1] is col
+    public static int[] randomCoordinate(Patterns pattern){
+        int [] coordinates = new int[2];
+        // calculate coordinate limits
+        int minRow = Board.getMargin();
+        int minCol = Board.getMargin();
+        int maxRow = Board.BOARD_HEIGHT - pattern.getHeight() - Board.getMargin();
+        int maxCol = Board.BOARD_WIDTH - pattern.getWidth() - Board.getMargin();
+
+        coordinates[0] = randomBetween(minRow, maxRow);
+        coordinates[1] = randomBetween(minCol, maxCol);
+        return coordinates;
     }
 
     public static boolean checkNeighbours(boolean[][] board, int row, int col, boolean cell){

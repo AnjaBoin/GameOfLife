@@ -24,6 +24,8 @@ public class Board {
     public boolean[][] getGrid() {
         return grid;
     }
+    public static int getMargin(){return MARGIN;}
+    public static int getGap(){return GAP;}
 
     // setter
     public void setGrid(boolean[][] grid) {
@@ -70,7 +72,7 @@ public class Board {
         randomiseBoard(STANDARD_DENSITY);
     }
 
-    // places pattern in the board
+    // places pattern on the board
     public void placePattern(Patterns pattern, int row, int col){
         boolean [][]patternGrid = pattern.getRowsBool();
 
@@ -89,7 +91,7 @@ public class Board {
         }
     }
 
-    // changes the generation
+    // changes the generation on the board
     public void nextGeneration(){
         Rules.nextGen(grid, nextGrid);
         boolean[][]temp = grid;
@@ -125,6 +127,14 @@ public class Board {
             lineHeight = Math.max(lineHeight, p.getHeight());
             cursorCol += p.getWidth() + GAP;
         }
+    }
+
+    // places a random pattern on the board
+    public void placeRandomPattern(){
+        int randomPattern = Rules.randomBetween(0, Patterns.values().length);
+        Patterns pattern = Patterns.values()[randomPattern];
+        int []coordinates = Rules.randomCoordinate(pattern);
+        placePattern(pattern, coordinates[0], coordinates[1]);
     }
 
 }
