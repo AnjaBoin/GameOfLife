@@ -19,10 +19,9 @@ public class Frame extends JFrame {
 
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
-    private final JComboBox<Patterns> patternBox = new JComboBox<>(Patterns.values());
-    private final JToggleButton drawToggle = new JToggleButton("Drawing");
+    private JToggleButton drawToggle;
 
-    private JComboBox<Patterns> comboBox;
+    private JComboBox<Patterns> patternBox;
 
     public Frame (){
         setTitle("Game of Life");
@@ -36,13 +35,13 @@ public class Frame extends JFrame {
         panelButtons.setLayout(new GridLayout(1,4, 10, 0));
         SpinnerNumberModel model = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
         JSpinner spinner = new JSpinner(model);
-        comboBox = createComboBox();
+        patternBox = createComboBox();
         JLabel labelSpinner = createLabel("Density %");
         JLabel labelCombo = createLabel("Pattern: ");
         panelSettings.add(labelSpinner);
         panelSettings.add(spinner);
         panelSettings.add(labelCombo);
-        panelSettings.add(comboBox);
+        panelSettings.add(patternBox);
         panel.add(panelSettings);
         panel.add(panelButtons);
 
@@ -51,7 +50,7 @@ public class Frame extends JFrame {
         add(panel, BorderLayout.SOUTH);
         add(cells, BorderLayout.CENTER);
 
-        // Button
+        // Button Timer for simulation
         Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,6 +63,12 @@ public class Frame extends JFrame {
         panelButtons.add(createEmptyButton());
         panelButtons.add(createShowPatterns());
         panelButtons.add(createRandomPattern());
+
+
+        // implement Mouse
+        drawToggle = createToggleMouse();
+        panelButtons.add(drawToggle);
+        setupMouse();
 
 
         // last piece
@@ -145,10 +150,10 @@ public class Frame extends JFrame {
 
     // create JCombobox which selects patterns
     private JComboBox<Patterns> createComboBox() {
-        comboBox = new JComboBox<Patterns>(Patterns.values());
-        comboBox.setFont(STANDARD_FONT);
+        patternBox = new JComboBox<Patterns>(Patterns.values());
+        patternBox.setFont(STANDARD_FONT);
 
-        return comboBox;
+        return patternBox;
     }
 
     // Button that shows all the patterns
@@ -175,7 +180,23 @@ public class Frame extends JFrame {
         return button;
     }
 
+    // creates a button that toggles mouse function
+    private JToggleButton createToggleMouse() {
+        JToggleButton button = new JToggleButton("Drawing off");
+        button.setFont(STANDARD_FONT);
 
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (button.isSelected()){
+                    button.setText("Drawing on");
+                } else {
+                    button.setText("Drawing off");
+                }
+            }
+        });
+
+        return button;
+    }
 
 
 

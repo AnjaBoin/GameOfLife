@@ -18,6 +18,15 @@ public class Cells extends JPanel {
     // getter
     public static int getCellSize(){return CELL_SIZE;}
 
+    // calculate position on the board with mouse
+    public int pixelToRow(int y){
+        return y / CELL_SIZE;
+    }
+
+    public int pixelToCol(int x){
+        return x / CELL_SIZE;
+    }
+
     // sets the preferred window size
     @Override
     public Dimension getPreferredSize(){
