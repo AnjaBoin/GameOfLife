@@ -19,6 +19,13 @@ public class Movements extends MouseAdapter {
 
     }
 
+    // centers pattern on mouse position when placed
+    private void placePatternCentered(Patterns pattern, int mousePosRow, int mousePosCol){
+        int col = mousePosCol - pattern.getWidth() / 2;
+        int row = mousePosRow - pattern.getHeight() / 2;
+        board.placePattern(pattern, row, col);
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (!drawToggle.isSelected()) {
@@ -32,12 +39,14 @@ public class Movements extends MouseAdapter {
             return;
         } else {
             Patterns pattern = (Patterns) patternBox.getSelectedItem();
+            if (pattern == null) {
+                return;
+            }
             if (pattern == Patterns.PIXEL) {
                 board.setCell(mousePosRow, mousePosCol, true);
             } else {
-                int col = mousePosCol - pattern.getWidth() / 2;
-                int row = mousePosRow - pattern.getHeight() / 2;
-                board.placePattern(pattern, row, col);
+                placePatternCentered(pattern, mousePosRow, mousePosCol);
+
             }
         }
         cells.repaint();
@@ -45,6 +54,7 @@ public class Movements extends MouseAdapter {
 
     }
 
+    // wenn mouse button is held, patterns wil be drawn wenn dragged
     @Override
     public void mouseDragged(MouseEvent e) {
         if (!drawToggle.isSelected()) {
@@ -56,11 +66,19 @@ public class Movements extends MouseAdapter {
         boolean[][] grid = board.getGrid();
         if (!Rules.insideBoard(grid, mousePosRow, mousePosCol)) {
             return;
+        }
+        Patterns pattern = (Patterns) patternBox.getSelectedItem();
+        if (pattern == null) {
+            return;
+        }
+
+        if (pattern == Patterns.PIXEL) {
+            // with pixel selected, it is sufficient wenn one cell is set to living
+            board.setCell(mousePosRow, mousePosCol, true);
+
         } else {
-            Patterns pattern = (Patterns) patternBox.getSelectedItem();
-            if (pattern == Patterns.PIXEL) {
-                board.setCell(mousePosRow, mousePosCol, true);
-            }
+            // when pattern other than pixel, pattern has to be placed on the board
+            placePatternCentered(pattern, mousePosRow, mousePosCol);
         }
         cells.repaint();
     }
