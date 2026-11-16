@@ -4,10 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
-    // use JComboBox for dropdownmenu
-    // pack() lets the frame determine its own size
-    // getPreferredSize() lets the frame make a perfect fit
-    // javax.swing.Timer starts the simulation.
     // eventueel IntStream gebruiken om te threaden en het sneller te maken
 
     // CONSTANTS
@@ -20,8 +16,10 @@ public class Frame extends JFrame {
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
     private JToggleButton drawToggle;
+    private JLabel categoryInfo;
 
     private JComboBox<Patterns> patternBox;
+    private JComboBox<Category> categoryBox;
 
     public Frame (){
         setTitle("Game of Life");
@@ -36,11 +34,26 @@ public class Frame extends JFrame {
         SpinnerNumberModel model = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
         JSpinner spinner = new JSpinner(model);
         patternBox = createComboBox();
-        JLabel labelSpinner = createLabel("Density %");
-        JLabel labelCombo = createLabel("Pattern: ");
-        panelSettings.add(labelSpinner);
+        categoryBox = createCategoryBox();
+        filterPatterns();
+        patternBox.setPreferredSize(patternBox.getPreferredSize());
+        categoryBox.setPreferredSize(categoryBox.getPreferredSize());
+
+        // label on top that shows name and description of the selected category
+        categoryInfo = new JLabel();
+        categoryInfo.setFont(STANDARD_FONT.deriveFont(Font.PLAIN));
+        categoryInfo.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        categoryInfo.setForeground(Color.GREEN);
+        categoryInfo.setBackground(Color.BLACK);
+        categoryInfo.setOpaque(true);
+        add(categoryInfo, BorderLayout.NORTH);
+        updateCategoryInfo();
+
+        panelSettings.add(createLabel("Density %"));
         panelSettings.add(spinner);
-        panelSettings.add(labelCombo);
+        panelSettings.add(createLabel("Category: "));
+        panelSettings.add(categoryBox);
+        panelSettings.add(createLabel("Pattern: "));
         panelSettings.add(patternBox);
         panel.add(panelSettings);
         panel.add(panelButtons);
@@ -148,12 +161,46 @@ public class Frame extends JFrame {
         return buttonTimer;
     }
 
-    // create JCombobox which selects patterns
+    // create JCombobox with the patterns
     private JComboBox<Patterns> createComboBox() {
-        patternBox = new JComboBox<Patterns>(Patterns.values());
+        patternBox = new JComboBox<>();
         patternBox.setFont(STANDARD_FONT);
-
         return patternBox;
+    }
+
+    // create JCombobox with the category of the patterns
+    private JComboBox<Category> createCategoryBox() {
+        categoryBox = new JComboBox<Category>(Category.values());
+        categoryBox.setFont(STANDARD_FONT);
+        categoryBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                filterPatterns();
+                updateCategoryInfo();
+            }
+        });
+
+        return categoryBox;
+    }
+
+    // shows name and description of the selected category
+    private void updateCategoryInfo() {
+        Category selected = (Category) categoryBox.getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+        categoryInfo.setText("<html><b>" + selected.getDisplayName() + ":</b> "
+                + selected.getDescription() + "</html>");
+    }
+
+    // filters the patterns on category via ComboBox
+    private void filterPatterns(){
+        Category selectedCategory = (Category) categoryBox.getSelectedItem();
+        patternBox.removeAllItems();
+        for (Patterns p : Patterns.values()){
+            if (p.getCategory() == selectedCategory || selectedCategory == Category.ALL){
+                patternBox.addItem(p);
+            }
+        }
     }
 
     // Button that shows all the patterns
