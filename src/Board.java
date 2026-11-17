@@ -2,8 +2,8 @@ public class Board {
     // this Class keeps the board as a raster
 
     // CONSTANTS
-    static final int BOARD_HEIGHT = 1200;
-    static final int BOARD_WIDTH = 2400;
+    static final int BOARD_HEIGHT = 700;
+    static final int BOARD_WIDTH = 1400;
     private static final int STANDARD_DENSITY = 30;
     private static final int GAP = 40;
     private static final int MARGIN = 5;
@@ -26,9 +26,9 @@ public class Board {
     public static int getGap(){return GAP;}
 
     // setter
-    //public void setGrid(boolean[][] grid) {
-    //    this.grid = grid;
-    //}
+    public void setGrid(boolean[][] grid) {
+        this.grid = grid;
+    }
 
     // get rows
     public int getRows(){
