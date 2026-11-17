@@ -7,11 +7,13 @@ public class Frame extends JFrame {
     // eventueel IntStream gebruiken om te threaden en het sneller te maken
 
     // CONSTANTS
-    private static final int VALUE_SPINNER = 50;
+    private static final int VALUE_SPINNER = 30;
     private static final int MIN_SPINNER = 0;
     private static final int MAX_SPINNER = 100;
     private static final int STEP_SPINNER = 5;
     private static final Font STANDARD_FONT = new Font("SansSerif", Font.BOLD, 16);
+    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    private static final Color TEXT_COLOR = Color.GREEN.darker();
 
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
@@ -40,13 +42,13 @@ public class Frame extends JFrame {
         categoryBox.setPreferredSize(categoryBox.getPreferredSize());
 
         // label on top that shows name and description of the selected category
-        categoryInfo = new JLabel();
-        categoryInfo.setFont(STANDARD_FONT.deriveFont(Font.PLAIN));
-        categoryInfo.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
-        categoryInfo.setForeground(Color.GREEN);
-        categoryInfo.setBackground(Color.BLACK);
-        categoryInfo.setOpaque(true);
-        add(categoryInfo, BorderLayout.NORTH);
+        categoryInfo = createDescriptionLabel();
+        // this 1 line for adding label to the Frame
+        //add(categoryInfo, BorderLayout.NORTH);
+        // these 2 lines for adding label to the Board
+        cells.setLayout(new BorderLayout());
+        cells.add(categoryInfo, BorderLayout.NORTH);
+        // updates the label with the actual description
         updateCategoryInfo();
 
         panelSettings.add(createLabel("Density %"));
@@ -104,6 +106,20 @@ public class Frame extends JFrame {
         JLabel label = new JLabel(text);
         label.setFont(STANDARD_FONT);
         return label;
+    }
+
+    // creates label for description of the patterns on top of the screen
+    private JLabel createDescriptionLabel(){
+        categoryInfo = new JLabel();
+        categoryInfo.setFont(STANDARD_FONT.deriveFont(Font.PLAIN));
+        categoryInfo.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
+        categoryInfo.setForeground(TEXT_COLOR);
+        categoryInfo.setBackground(BACKGROUND_COLOR);
+        // this line for adding label to the frame
+        //categoryInfo.setOpaque(true);
+        // this line for adding label to the board
+        categoryInfo.setOpaque(false);
+        return categoryInfo;
     }
 
     // creates a button with the standard layout
@@ -190,6 +206,7 @@ public class Frame extends JFrame {
         }
         categoryInfo.setText("<html><b>" + selected.getDisplayName() + ":</b> "
                 + selected.getDescription() + "</html>");
+        categoryInfo.setVisible(selected != Category.ALL);
     }
 
     // filters the patterns on category via ComboBox
