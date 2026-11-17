@@ -28,7 +28,8 @@ public class Frame extends JFrame {
     public Frame (){
         setTitle("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
+        // weghalen ivm veranderbare size
+        //setResizable(false);
 
         // Control panel
         JPanel panel = new JPanel();

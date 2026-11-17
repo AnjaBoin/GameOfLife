@@ -17,20 +17,7 @@ public class Rules {
         return min + (int) (Math.random() * (max - min + 1));
     }
 
-    // returns random coordinates for a pattern which fits the board
-    // coordinates[0] is row, coordinates[1] is col
-    public static int[] randomCoordinate(Patterns pattern){
-        int [] coordinates = new int[2];
-        // calculate coordinate limits
-        int minRow = Board.getMargin();
-        int minCol = Board.getMargin();
-        int maxRow = Board.BOARD_HEIGHT - pattern.getHeight() - Board.getMargin();
-        int maxCol = Board.BOARD_WIDTH - pattern.getWidth() - Board.getMargin();
 
-        coordinates[0] = randomBetween(minRow, maxRow);
-        coordinates[1] = randomBetween(minCol, maxCol);
-        return coordinates;
-    }
 
     public static boolean checkNeighbours(boolean[][] board, int row, int col, boolean cell){
         int amountNeighbours = 0;

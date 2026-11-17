@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 // this class reads and draws the board (which cells live)
 
 public class Cells extends JPanel {
     // CONSTANTS
-    private static final int CELL_SIZE = 1;
+    private static final int CELL_SIZE = 3;
     private static final Color COLOR_LIVING = Color.WHITE;
     private static final Color COLOR_DEAD = Color.BLACK;
     private final Board board;
@@ -13,6 +15,18 @@ public class Cells extends JPanel {
 
     public Cells(Board board){
         this.board = board;
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                int cols = getWidth() / CELL_SIZE;
+                int rows = getHeight() / CELL_SIZE;
+                if (cols != board.getColumns() || rows != board.getRows()){
+                    board.resizeBoard(rows, cols);
+                }
+                repaint();
+            }
+
+        });
     }
 
     // getter
@@ -30,7 +44,7 @@ public class Cells extends JPanel {
     // sets the preferred window size
     @Override
     public Dimension getPreferredSize(){
-        return new Dimension(Board.BOARD_WIDTH * CELL_SIZE, Board.BOARD_HEIGHT * CELL_SIZE);
+        return new Dimension(board.getColumns() * CELL_SIZE, board.getRows() * CELL_SIZE);
     }
 
     @Override
@@ -48,6 +62,7 @@ public class Cells extends JPanel {
             }
         }
     }
+
 
 
 

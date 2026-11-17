@@ -25,11 +25,6 @@ public class Board {
     public static int getMargin(){return MARGIN;}
     public static int getGap(){return GAP;}
 
-    // setter
-    public void setGrid(boolean[][] grid) {
-        this.grid = grid;
-    }
-
     // get rows
     public int getRows(){
         return grid.length;
@@ -108,14 +103,14 @@ public class Board {
 
         for (Patterns p : Patterns.values()){
             // if pattern does not fit on line: next line
-            if (cursorCol + p.getWidth() + MARGIN > BOARD_WIDTH) {
+            if (cursorCol + p.getWidth() + MARGIN > getColumns()) {
                 cursorRow += lineHeight + GAP;
                 cursorCol = MARGIN;
                 lineHeight = 0;
             }
 
             // if pattern does not fit on board: skip
-            if (cursorRow + p.getHeight() + MARGIN > BOARD_HEIGHT) {
+            if (cursorRow + p.getHeight() + MARGIN > getRows()) {
                 continue;
             }
 
@@ -131,8 +126,37 @@ public class Board {
     public void placeRandomPattern(){
         int randomPattern = Rules.randomBetween(0, Patterns.values().length-1);
         Patterns pattern = Patterns.values()[randomPattern];
-        int []coordinates = Rules.randomCoordinate(pattern);
+        // pattern does not fit on the board: do nothing
+        if (pattern.getHeight() + 2 * MARGIN > getRows()
+                || pattern.getWidth() + 2 * MARGIN > getColumns()) {
+            return;
+        }
+        int []coordinates = randomCoordinate(pattern);
         placePattern(pattern, coordinates[0], coordinates[1]);
+    }
+
+    // makes the board resizable
+    public void resizeBoard(int rows, int cols){
+        if (rows <= 1 || cols <= 1) {
+            return;
+        }
+        grid = new boolean[rows][cols];
+        nextGrid = new boolean[grid.length][grid[0].length];
+    }
+
+    // returns random coordinates for a pattern which fits the board
+    // coordinates[0] is row, coordinates[1] is col
+    public int[] randomCoordinate(Patterns pattern){
+        int [] coordinates = new int[2];
+        // calculate coordinate limits
+        int minRow = MARGIN;
+        int minCol = MARGIN;
+        int maxRow = getRows() - pattern.getHeight() - Board.getMargin();
+        int maxCol = getColumns() - pattern.getWidth() - Board.getMargin();
+
+        coordinates[0] = Rules.randomBetween(minRow, maxRow);
+        coordinates[1] = Rules.randomBetween(minCol, maxCol);
+        return coordinates;
     }
 
 }
