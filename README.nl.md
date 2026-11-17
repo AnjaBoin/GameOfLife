@@ -17,44 +17,65 @@ Game of Life is een cellulaire automaat die de wiskundige John Horton Conway in 
 - Een levende cel met meer dan drie levende buren sterft (overbevolking).
 - Een dode cel met precies drie levende buren komt tot leven (geboorte).
 
-Uit deze eenvoudige regels ontstaan verrassend complexe patronen: stabiele vormen, oscillatoren en ruimteschepen die over het speelveld bewegen.
+Uit deze eenvoudige regels ontstaan verrassend complexe patronen: stabiele vormen, oscillatoren, ruimteschepen die over het speelveld bewegen, en kanonnen die steeds nieuwe ruimteschepen afschieten.
 
 ## Functies
 
-- Weergave van het speelveld als raster in een Swing-venster
-- Levende cellen in kleur, dode cellen zwart
-- Berekening van de volgende generatie volgens de regels van Conway
-- Automatisch verloop van de generaties via een Swing-timer
-- Voorgedefinieerde patronen, te kiezen via een dropdownmenu
-- Patronen met een muisklik op een willekeurige plek in het speelveld plaatsen
-- Losse cellen met een muisklik aan- en uitzetten
-- Tekstvoorbeeld van elk patroon
+**Simulatie**
+- Weergave van het speelveld als raster in een Swing-venster: levende cellen wit, dode cellen zwart
+- Berekening van de volgende generatie volgens de regels van Conway; cellen buiten het speelveld gelden als dood
+- Automatisch verloop via een Swing-timer (10 generaties per seconde), met een Start/Stop-knop
+- Efficiënte berekening: per generatie worden twee arrays omgewisseld, in plaats van steeds een nieuwe array te maken
+
+**Het speelveld vullen**
+- **Random:** vult het speelveld willekeurig; het aandeel levende cellen is in te stellen met een spinner (0–100 %)
+- **Empty Board:** maakt het speelveld leeg
+- **Show patterns:** toont alle beschikbare patronen naast en onder elkaar, zonder dat ze elkaar raken
+- **Place random pattern:** zet een willekeurig patroon op een willekeurige plek waar het helemaal op het speelveld past
+
+**Patroonkeuze**
+- Twee gekoppelde dropdownmenu's: eerst kies je een categorie, daarna toont het tweede menu alleen de patronen uit die categorie. Met „All patterns" zie je alle patronen.
+- Bij elke categorie verschijnt bovenaan het speelveld een korte uitleg.
+
+**Tekenen met de muis**
+- Met de knop „Drawing on/off" zet je het tekenen aan of uit.
+- Een muisklik plaatst het gekozen patroon, gecentreerd rond de muispositie.
+- Met het patroon „Pixel" zet je losse cellen; slepen met ingedrukte muisknop tekent een lijn.
+- Bij andere patronen laat slepen een spoor van stempels achter, met een korte vertraging tussen twee stempels.
+- Tekenen werkt zowel op een leeg speelveld als terwijl de simulatie loopt.
 
 ## Meegeleverde patronen
 
-| Patroon            | Type                          |
-|--------------------|-------------------------------|
-| Block              | Stabiele vorm (still life)    |
-| Tub                | Stabiele vorm (still life)    |
-| Boat               | Stabiele vorm (still life)    |
-| Blinker            | Oscillator                    |
-| Cloverleaf         | Oscillator                    |
-| Glider             | Ruimteschip                   |
-| Hammerhead         | Ruimteschip                   |
-| Gosper Glider Gun  | Kanon (produceert gliders)    |
+De patronen zijn ingedeeld in categorieën:
 
-De patronen zijn opgeslagen in plaintext-formaat (`.` = dood, `O` = levend), hetzelfde formaat als op de [LifeWiki](https://conwaylife.com/wiki/). Nieuwe patronen voeg je toe met één regel in de enum `Patterns`.
+| Categorie            | Patronen                                                                                   |
+|----------------------|--------------------------------------------------------------------------------------------|
+| Still lifes          | Barge, Block, Canoe, Long Barge, Long boat, Mango, Pond, Tub                               |
+| Strict still lifes   | Beehive, Big S, Boat, Loaf, Ship                                                           |
+| Pseudo still lifes   | Half Fleet, Quad pseudo still life, Triple pseudo still life                               |
+| Eater                | Century eater, Eater 1, Eater 3, Eater 5, Glider eater, Demonstration of eaters            |
+| Oscillators          | Beacon, Blinker, Cloverleaf, Pentadecathlon, Pulsar, Quadpole, Queen bee shuttle, Toad     |
+| Spaceships           | Glider, Hammerhead, Heavyweight spaceship, Hivenudger, Lightweight spaceship               |
+| Blinker Ship         | Blinker Ship                                                                               |
+| Guns                 | B52 Bomber, Bi gun, Gosper glider Gun, Medusa, Simkin glider gun, Vacuum                   |
+| Growth patterns      | Block-laying switch engine, Noahs Arc, Pufferfish                                          |
+| Methuselahs          | Acorn, Diehard, Edna, Hershel, R-pentomino                                                 |
+| Pixel                | Pixel (één losse cel, om mee te tekenen)                                                   |
+
+De patronen zijn opgeslagen in plaintext-formaat (`.` = dood, `O` = levend), hetzelfde formaat als op de [LifeWiki](https://conwaylife.com/wiki/). Een nieuw patroon voeg je toe met één regel in de enum `Patterns`: weergavenaam, categorie en de rijen van het patroon. Bevat een patroon een ander teken dan `.` of `O`, dan geeft het programma bij het opstarten een duidelijke foutmelding, met de naam, de rij en de positie.
 
 ## Projectstructuur
 
-| Klasse      | Taak                                                                                      |
-|-------------|-------------------------------------------------------------------------------------------|
-| `Frame`     | Hoofdvenster (JFrame), brengt speelveld en bedieningselementen samen                      |
-| `Board`     | Beheert het speelveld als `boolean[][]` (levend / dood)                                   |
-| `Rules`     | Telt de levende buren en berekent de volgende generatie                                   |
-| `Cells`     | Tekenvlak (JPanel) dat het speelveld weergeeft                                            |
-| `Patterns`  | Enum met de voorgedefinieerde patronen, elk met weergavenaam, rijen en voorbeeld          |
-| `Movements` | Bediening: muisklikken, patroonkeuze en timer voor het automatische verloop               |
+| Klasse      | Taak                                                                                                     |
+|-------------|----------------------------------------------------------------------------------------------------------|
+| `Main`      | Start het programma                                                                                      |
+| `Frame`     | Hoofdvenster (JFrame): speelveld, bedieningselementen, dropdownmenu's, timer en categorie-uitleg         |
+| `Board`     | Beheert het speelveld als `boolean[][]`; willekeurig vullen, patronen plaatsen, alle patronen tonen      |
+| `Rules`     | Telt de levende buren, berekent de volgende generatie en levert hulpmethodes (randcontrole, willekeurige posities) |
+| `Cells`     | Tekenvlak (JPanel) dat het speelveld weergeeft en muisposities omrekent naar rijen en kolommen           |
+| `Movements` | Muisbediening: klikken en slepen om cellen en patronen te plaatsen                                       |
+| `Patterns`  | Enum met alle patronen, elk met weergavenaam, categorie, rijen, breedte, hoogte en tekstvoorbeeld        |
+| `Category`  | Enum met de categorieën van de patronen, elk met weergavenaam en uitleg                                  |
 
 ## Gebruikte technologieën
 
@@ -74,11 +95,14 @@ Het project heeft alleen een actuele JDK nodig. Externe bibliotheken zijn niet n
    git clone https://github.com/AnjaBoin/GameOfLife_Swing_public.git
    ```
 2. Project openen in IntelliJ IDEA.
-3. De klasse met de `main`-methode uitvoeren.
+3. De klasse `Main` uitvoeren.
 
 ## Status
 
-Het project is nog in ontwikkeling. De spellogica (buren tellen, volgende generatie berekenen) en de patronen zijn klaar; de grafische weergave en de bediening volgen nog.
+Het programma is volledig werkend. Mogelijke uitbreidingen:
+- Het speelveld automatisch aanpassen aan de schermgrootte
+- Een eigen kleur per patroon
+- De rekentijd per generatie tonen, en parallel rekenen
 
 ## Auteur
 
