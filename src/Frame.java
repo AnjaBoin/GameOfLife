@@ -12,6 +12,7 @@ public class Frame extends JFrame {
     private static final int MIN_SPINNER = 0;
     private static final int MAX_SPINNER = 100;
     private static final int STEP_SPINNER = 5;
+    private static final int TIMER_DELAY = 20;
     private static final Font STANDARD_FONT = new Font("SansSerif", Font.BOLD, 16);
     private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.GREEN.darker();
@@ -67,7 +68,7 @@ public class Frame extends JFrame {
         add(cells, BorderLayout.CENTER);
 
         // Button Timer for simulation
-        Timer timer = new Timer(100, new ActionListener() {
+        Timer timer = new Timer(TIMER_DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 board.nextGeneration();

@@ -2,8 +2,8 @@ public class Board {
     // this Class keeps the board as a raster
 
     // CONSTANTS
-    static final int BOARD_HEIGHT = 400;
-    static final int BOARD_WIDTH = 800;
+    static final int BOARD_HEIGHT = 1200;
+    static final int BOARD_WIDTH = 2400;
     private static final int STANDARD_DENSITY = 30;
     private static final int GAP = 40;
     private static final int MARGIN = 5;
