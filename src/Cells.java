@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-// the JPanel which reads and draws the board (which cells live)
+// this class reads and draws the board (which cells live)
 
 public class Cells extends JPanel {
     // CONSTANTS

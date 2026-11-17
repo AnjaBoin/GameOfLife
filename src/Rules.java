@@ -4,7 +4,7 @@ public class Rules {
 
     //CONSTRUCTOR
     public Rules(){
-
+        // still empty
     }
 
     // checks if a cell fits the board

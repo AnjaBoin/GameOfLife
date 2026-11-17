@@ -5,6 +5,7 @@
 
 public enum Patterns {
     //CONSTANTS
+    PIXEL("Pixel", Category.PIXEL,"O"),
     ACORN("Acorn", Category.METHUSELAHS, ".O.....", "...O...", "OO..OOO"),
     B52_BOMBER("B52 Bomber", Category.GUNS,
             ".........................................",
@@ -214,7 +215,7 @@ public enum Patterns {
             "O....O.......OO...",
             "OOOOO............."),
     HEAVYWEIGHT_SPACESHIP("Heavyweight spaceship", Category.SPACESHIPS,"...OO..", ".O....O", "O......", "O.....O", "OOOOOO."),
-    HERSHEL("Hershel", Category.METHUSELAHS, "O..", "OOO", "O.O", "..O"),
+    HERSCHEL("Herschel", Category.METHUSELAHS, "O..", "OOO", "O.O", "..O"),
     HIVENUDGER("Hivenudger", Category.SPACESHIPS,
             "OOOO.....O..O",
             "O...O...O....",
@@ -306,7 +307,6 @@ public enum Patterns {
             "..OO...........",
             "...O..........."),
     PENTADECATHLON("Pentadecathlon", Category.OSCILLATORS, "..O....O..", "OO.OOOO.OO", "..O....O.."),
-    PIXEL("Pixel", Category.PIXEL,"O"),
     POND("Pond", Category.STILL_LIFES, ".OO.", "O..O", "O..O", ".OO."),
     PUFFERFISH("Pufferfish", Category.GROWTH_PATTERNS,
             "...O.......O...",

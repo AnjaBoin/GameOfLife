@@ -4,7 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
-    // eventueel IntStream gebruiken om te threaden en het sneller te maken
+    // this class sets the frame for the board with control panels
+    // use IntStream to thread and make programm run faster
 
     // CONSTANTS
     private static final int VALUE_SPINNER = 30;

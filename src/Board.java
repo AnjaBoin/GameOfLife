@@ -1,7 +1,5 @@
 public class Board {
     // this Class keeps the board as a raster
-    // Methodes to turn cells on and off
-    // how to
 
     // CONSTANTS
     static final int BOARD_HEIGHT = 400;
@@ -28,9 +26,9 @@ public class Board {
     public static int getGap(){return GAP;}
 
     // setter
-    public void setGrid(boolean[][] grid) {
-        this.grid = grid;
-    }
+    //public void setGrid(boolean[][] grid) {
+    //    this.grid = grid;
+    //}
 
     // get rows
     public int getRows(){
