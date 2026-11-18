@@ -140,8 +140,17 @@ public class Board {
         if (rows <= 1 || cols <= 1) {
             return;
         }
+        boolean[][]oldGrid = grid;
         grid = new boolean[rows][cols];
+        int heightMin = Math.min(oldGrid.length, grid.length);
+        int widthMin = Math.min(oldGrid[0].length,grid[0].length);
+        for(int r = 0; r < heightMin; r ++){
+            for (int c = 0; c < widthMin; c++){
+                grid[r][c] = oldGrid[r][c];
+            }
+        }
         nextGrid = new boolean[grid.length][grid[0].length];
+
     }
 
     // returns random coordinates for a pattern which fits the board
