@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     private static final int MIN_SPINNER = 0;
     private static final int MAX_SPINNER = 100;
     private static final int STEP_SPINNER = 5;
-    private static final int TIMER_DELAY = 100;
+    private static final int TIMER_DELAY = 1;
     private static final Font STANDARD_FONT = new Font("SansSerif", Font.BOLD, 16);
     private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.GREEN.darker();
