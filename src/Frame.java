@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,10 +9,18 @@ public class Frame extends JFrame {
     // use IntStream to thread and make programm run faster
 
     // CONSTANTS
+    private static final int VALUE_SPINNER_CELL = 3;
+    private static final int MIN_SPINNER_CELL = 1;
+    private static final int MAX_SPINNER_CELL = 10;
+    private static final int STEP_SPINNER_CELL = 1;
     private static final int VALUE_SPINNER = 30;
     private static final int MIN_SPINNER = 0;
     private static final int MAX_SPINNER = 100;
     private static final int STEP_SPINNER = 5;
+    private static final int VALUE_SPINNER_TIMER = 30;
+    private static final int MIN_SPINNER_TIMER = 0;
+    private static final int MAX_SPINNER_TIMER = 1000;
+    private static final int STEP_SPINNER_TIMER = 10;
     private static final int TIMER_DELAY = 1;
     private static final Font STANDARD_FONT = new Font("SansSerif", Font.BOLD, 16);
     private static final Color BACKGROUND_COLOR = Color.BLACK;
@@ -24,25 +33,26 @@ public class Frame extends JFrame {
 
     private JComboBox<Patterns> patternBox;
     private JComboBox<Category> categoryBox;
+    private JSpinner spinnerDensity;
+    private JSpinner spinnerTimer;
 
     public Frame (){
         setTitle("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // weghalen ivm veranderbare size
-        //setResizable(false);
+
+        // Button Timer for simulation
+        Timer timer = new Timer(TIMER_DELAY, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                board.nextGeneration();
+                cells.repaint();
+            }
+        });
 
         // Control panel
         JPanel panel = new JPanel();
-        JPanel panelSettings = new JPanel();
-        JPanel panelButtons = new JPanel();
-        panelButtons.setLayout(new GridLayout(1,4, 10, 0));
-        SpinnerNumberModel model = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
-        JSpinner spinner = new JSpinner(model);
-        patternBox = createComboBox();
-        categoryBox = createCategoryBox();
-        filterPatterns();
-        patternBox.setPreferredSize(patternBox.getPreferredSize());
-        categoryBox.setPreferredSize(categoryBox.getPreferredSize());
+        JPanel panelSettings = createSettingsPanel(timer);
+        JPanel panelButtons = createButtonsPanel(timer);
 
         // label on top that shows name and description of the selected category
         categoryInfo = createDescriptionLabel();
@@ -54,47 +64,25 @@ public class Frame extends JFrame {
         // updates the label with the actual description
         updateCategoryInfo();
 
-        panelSettings.add(createLabel("Density %"));
-        panelSettings.add(spinner);
-        panelSettings.add(createLabel("Category: "));
-        panelSettings.add(categoryBox);
-        panelSettings.add(createLabel("Pattern: "));
-        panelSettings.add(patternBox);
+        // Control panel layout
         panel.setLayout(new BorderLayout());
+        // BUttons panel in a wrapper to get same size for all buttons
+        JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonWrapper.add(panelButtons);
         panel.add(panelSettings, BorderLayout.NORTH);
-        panel.add(panelButtons, BorderLayout.SOUTH);
-        //panel.add(panelSettings);
-        //panel.add(panelButtons);
-
+        panel.add(buttonWrapper, BorderLayout.SOUTH);
 
         // Frame
         add(panel, BorderLayout.SOUTH);
         add(cells, BorderLayout.CENTER);
 
-        // Button Timer for simulation
-        Timer timer = new Timer(TIMER_DELAY, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                board.nextGeneration();
-                cells.repaint();
-            }
-        });
-        panelButtons.add(createRandomButton(spinner));
-        panelButtons.add(createStartStopButton(timer));
-        panelButtons.add(createEmptyButton());
-        panelButtons.add(createShowPatterns());
-        panelButtons.add(createRandomPattern());
-
-
         // implement Mouse
-        drawToggle = createToggleMouse();
-        panelButtons.add(drawToggle);
         setupMouse();
 
-
-        // last piece
+        // last piece; has to be at the end of the constructor
         // adjusts frame to fit for items within it
         pack();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -133,6 +121,24 @@ public class Frame extends JFrame {
         JButton button = new JButton(text);
         button.setFont(STANDARD_FONT);
         return button;
+    }
+
+    // reads the spinner that sets the cell size
+    private void changeTimer(JSpinner spinner, Timer timer) {
+        spinner.addChangeListener(e -> {
+            int value = (int) spinner.getValue();
+            timer.setDelay(value);
+        });
+
+    }
+
+    // reads the spinner that sets the cell size
+    private void changeCellSize(JSpinner spinner) {
+        spinner.addChangeListener(e -> {
+            int value = (int) spinner.getValue();
+            cells.setCellSize(value);
+        });
+
     }
 
     // creates a button that fills the board randomly
@@ -240,7 +246,7 @@ public class Frame extends JFrame {
 
     // Button that places a random pattern on the board
     private JButton createRandomPattern(){
-        JButton button = createButton("Place random pattern");
+        JButton button = createButton("Random pattern");
         button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 board.placeRandomPattern();
@@ -269,7 +275,54 @@ public class Frame extends JFrame {
     }
 
 
+    // sets the layout for the settings panel
+    private JPanel createSettingsPanel(Timer timer){
+        JPanel panelSettings = new JPanel();
 
+        SpinnerNumberModel cellChooser = new SpinnerNumberModel(VALUE_SPINNER_CELL, MIN_SPINNER_CELL, MAX_SPINNER_CELL, STEP_SPINNER_CELL);
+        SpinnerNumberModel densityChooser = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
+        SpinnerNumberModel timerChooser = new SpinnerNumberModel(VALUE_SPINNER_TIMER, MIN_SPINNER_TIMER, MAX_SPINNER_TIMER, STEP_SPINNER_TIMER);
+        spinnerTimer = new JSpinner(timerChooser);
+        changeTimer(spinnerTimer, timer);
+        JSpinner spinnerCell = new JSpinner(cellChooser);
+        spinnerDensity = new JSpinner(densityChooser);
+        changeCellSize(spinnerCell );
+        patternBox = createComboBox();
+        categoryBox = createCategoryBox();
+        filterPatterns();
+        patternBox.setPreferredSize(patternBox.getPreferredSize());
+        categoryBox.setPreferredSize(categoryBox.getPreferredSize());
+
+        panelSettings.add(createLabel("Delay ms"));
+        panelSettings.add(spinnerTimer);
+        panelSettings.add(createLabel("Cell size"));
+        panelSettings.add(spinnerCell);
+        panelSettings.add(createLabel("Density %"));
+        panelSettings.add(spinnerDensity);
+        panelSettings.add(createLabel("Category: "));
+        panelSettings.add(categoryBox);
+        panelSettings.add(createLabel("Pattern: "));
+        panelSettings.add(patternBox);
+
+        return panelSettings;
+    }
+
+    // sets the layout for the buttons panel
+    private JPanel createButtonsPanel(Timer timer){
+        JPanel panelButtons = new JPanel();
+        panelButtons.setLayout(new GridLayout(1,8, 10, 10));
+
+        panelButtons.add(createRandomButton(spinnerDensity));
+        panelButtons.add(createStartStopButton(timer));
+        panelButtons.add(createEmptyButton());
+        panelButtons.add(createShowPatterns());
+        panelButtons.add(createRandomPattern());
+
+        drawToggle = createToggleMouse();
+        panelButtons.add(drawToggle);
+
+        return panelButtons;
+    }
 
 }
 

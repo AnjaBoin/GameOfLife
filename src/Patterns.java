@@ -232,6 +232,7 @@ public enum Patterns {
             "OOOO.....O..O"),
     LIGHTWEIGHT_SPACESHIP("Lightweight spaceship", Category.SPACESHIPS,".O..O", "O....", "O...O", "OOOO."),
     LOAF("Loaf", Category.STRICT_STILL_LIFES, ".OO.", "O..O", "O.O.", ".O.."),
+    LOAFER("Loafer", Category.SPACESHIPS, ".OO..O.OO", "O..O..OO.", ".O.O.....", "..O......", "........O", "......OOO", ".....O...", "......O..", ".......OO"),
     LONG_BARGE("Long Barge", Category.STILL_LIFES, ".O...", "O.O..", ".O.O.","..O.O", "...O."),
     LONG_BOAT("Long boat", Category.STILL_LIFES, "OO..", "O.O.", ".O.O", "..O."),
     MANGO("Mango", Category.STILL_LIFES, ".OO..", "O..O.", ".O..O", "..OO."),

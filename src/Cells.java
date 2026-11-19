@@ -11,12 +11,12 @@ import java.util.Arrays;
 
 public class Cells extends JPanel {
     // CONSTANTS
-    private static final int CELL_SIZE = 1;
     private static final Color COLOR_LIVING = Color.WHITE;
     private static final Color COLOR_DEAD = Color.BLACK;
     private static final int COLOR_IMAGE_DEAD = COLOR_DEAD.getRGB();
     private static final int COLOR_IMAGE_LIVING = COLOR_LIVING.getRGB();
     private final Board board;
+    private int cellSize = 3;
 
     // fields for buffered image
     private BufferedImage image;
@@ -29,33 +29,34 @@ public class Cells extends JPanel {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int cols = getWidth() / CELL_SIZE;
-                int rows = getHeight() / CELL_SIZE;
-                if (cols != board.getColumns() || rows != board.getRows()){
-                    board.resizeBoard(rows, cols);
-                }
-                repaint();
+                updateBoardSize();
             }
 
         });
     }
 
     // getter
-    public static int getCellSize(){return CELL_SIZE;}
+    public int getCellSize(){return cellSize;}
+
+    // setter
+    public void setCellSize(int value){
+        if (value < 1){return;}
+        cellSize = value;
+        updateBoardSize();}
 
     // calculate position on the board with mouse
     public int pixelToRow(int y){
-        return y / CELL_SIZE;
+        return y / cellSize;
     }
 
     public int pixelToCol(int x){
-        return x / CELL_SIZE;
+        return x / cellSize;
     }
 
     // sets the preferred window size
     @Override
     public Dimension getPreferredSize(){
-        return new Dimension(board.getColumns() * CELL_SIZE, board.getRows() * CELL_SIZE);
+        return new Dimension(board.getColumns() * cellSize, board.getRows() * cellSize);
     }
 
     @Override
@@ -77,9 +78,10 @@ public class Cells extends JPanel {
                 }
             }
         }
-        g.drawImage(image, 0, 0, board.getColumns() * CELL_SIZE, board.getRows() * CELL_SIZE, null);
+        g.drawImage(image, 0, 0, cols * cellSize, rows * cellSize, null);
     }
 
+    // prepares the buffered image to reduce processor capacity
     private void prepareImage(){
         if (image == null || image.getWidth() != board.getColumns() || image.getHeight() != board.getRows()){
             image = new BufferedImage(board.getColumns(), board.getRows(), BufferedImage.TYPE_INT_RGB);
@@ -87,7 +89,15 @@ public class Cells extends JPanel {
         }
     }
 
-
+    // updates board after cell size is changed
+    private void updateBoardSize(){
+        int cols = getWidth() / cellSize;
+        int rows = getHeight() / cellSize;
+        if (cols != board.getColumns() || rows != board.getRows()){
+            board.resizeBoard(rows, cols);
+        }
+        repaint();
+    }
 
 
 }
