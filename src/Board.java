@@ -1,5 +1,7 @@
+// this Class keeps the board as a raster
+
 public class Board {
-    // this Class keeps the board as a raster
+
 
     // CONSTANTS
     static final int BOARD_HEIGHT = 700;
@@ -92,10 +94,10 @@ public class Board {
         nextGrid = temp;
     }
 
-    // places pattern in the board
+    // places pattern on the board
     public void showAllPatterns(){
         randomiseBoard(0);
-
+        // places patterns with a margin from edge
         int cursorRow = MARGIN;
         int cursorCol = MARGIN;
 
@@ -122,7 +124,7 @@ public class Board {
         }
     }
 
-    // places a random pattern on the board
+    // places a random pattern on the board on random position
     public void placeRandomPattern(){
         int randomPattern = Rules.randomBetween(0, Patterns.values().length-1);
         Patterns pattern = Patterns.values()[randomPattern];
@@ -150,11 +152,9 @@ public class Board {
             }
         }
         nextGrid = new boolean[grid.length][grid[0].length];
-
     }
 
-    // returns random coordinates for a pattern which fits the board
-    // coordinates[0] is row, coordinates[1] is col
+    // returns random coordinates on the board for a pattern which fits the board
     public int[] randomCoordinate(Patterns pattern){
         int [] coordinates = new int[2];
         // calculate coordinate limits
@@ -162,10 +162,9 @@ public class Board {
         int minCol = MARGIN;
         int maxRow = getRows() - pattern.getHeight() - Board.getMargin();
         int maxCol = getColumns() - pattern.getWidth() - Board.getMargin();
-
+        // coordinates[0] is row, coordinates[1] is col
         coordinates[0] = Rules.randomBetween(minRow, maxRow);
         coordinates[1] = Rules.randomBetween(minCol, maxCol);
         return coordinates;
     }
-
 }

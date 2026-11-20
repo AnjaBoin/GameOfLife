@@ -24,8 +24,11 @@ These simple rules give rise to surprisingly complex patterns: stable shapes, os
 **Simulation**
 - Display of the board as a grid in a Swing window: living cells white, dead cells black
 - Calculation of the next generation according to Conway's rules; cells outside the board count as dead
-- Automatic progression using a Swing timer (10 generations per second), with a Start/Stop button
+- Automatic progression using a Swing timer with a Start/Stop button; the delay between two generations (in milliseconds) can be set with a spinner, and the board updates automatically
+- Efficient rendering: the board is first written into a `BufferedImage` (one pixel per cell) and then drawn scaled up in a single step, instead of drawing every cell separately with `fillRect`. This saves computing time (CPU load)
 - Efficient calculation: two arrays are swapped every generation instead of creating a new array each time
+- The window opens maximised; the board automatically adapts to the window size and therefore to the screen resolution, also when the window is later enlarged or reduced. Existing cells are kept
+- The cell size (1–10 pixels per cell) can be set with a spinner; the number of rows and columns is then recalculated automatically
 
 **Filling the board**
 - **Random:** fills the board randomly; the share of living cells can be set with a spinner (0–100 %)
@@ -100,7 +103,6 @@ The project only requires a current JDK. No external libraries are needed.
 ## Status
 
 The program is fully functional. Possible extensions:
-- Automatically adapting the board to the screen size
 - A colour of its own for each pattern
 - Showing the calculation time per generation, and parallel calculation
 

@@ -7,7 +7,7 @@ import java.awt.image.DataBufferInt;
 import java.util.Arrays;
 
 
-// this class reads and draws the board (which cells live)
+// this Class reads and draws the board (which cells live)
 
 public class Cells extends JPanel {
     // CONSTANTS
@@ -22,7 +22,7 @@ public class Cells extends JPanel {
     private BufferedImage image;
     private int[] pixels;
 
-
+    // CONSTRUCTOR
     public Cells(Board board){
         this.board = board;
         setBackground(COLOR_DEAD);
@@ -31,7 +31,6 @@ public class Cells extends JPanel {
             public void componentResized(ComponentEvent e) {
                 updateBoardSize();
             }
-
         });
     }
 
@@ -48,7 +47,6 @@ public class Cells extends JPanel {
     public int pixelToRow(int y){
         return y / cellSize;
     }
-
     public int pixelToCol(int x){
         return x / cellSize;
     }
@@ -59,6 +57,7 @@ public class Cells extends JPanel {
         return new Dimension(board.getColumns() * cellSize, board.getRows() * cellSize);
     }
 
+    // paints the image to the board
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -98,6 +97,4 @@ public class Cells extends JPanel {
         }
         repaint();
     }
-
-
 }

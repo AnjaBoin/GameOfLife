@@ -24,8 +24,11 @@ Aus diesen einfachen Regeln entstehen überraschend komplexe Muster: stabile For
 **Simulation**
 - Darstellung des Spielfelds als Raster in einem Swing-Fenster: lebende Zellen weiß, tote Zellen schwarz
 - Berechnung der nächsten Generation nach Conways Regeln; Zellen außerhalb des Spielfelds gelten als tot
-- Automatischer Ablauf über einen Swing-Timer (10 Generationen pro Sekunde), mit einer Start/Stop-Taste
+- Automatischer Ablauf über einen Swing-Timer mit einer Start/Stop-Taste; die Verzögerung zwischen zwei Generationen (Delay in Millisekunden) ist über einen Regler einstellbar, das Spielfeld wird danach automatisch aktualisiert
+- Effiziente Darstellung: Das Spielfeld wird zuerst in ein `BufferedImage` geschrieben (ein Pixel pro Zelle) und anschließend in einem Schritt vergrößert gezeichnet, statt jede Zelle einzeln mit `fillRect` zu zeichnen. Das spart Rechenzeit (CPU-Last)
 - Effiziente Berechnung: zwei Arrays werden pro Generation getauscht, statt jedes Mal ein neues Array anzulegen
+- Das Fenster öffnet sich maximiert; das Spielfeld passt sich automatisch an die Fenstergröße und damit an die Bildschirmauflösung an, auch wenn das Fenster später vergrößert oder verkleinert wird. Bestehende Zellen bleiben dabei erhalten
+- Die Zellgröße (1–10 Pixel pro Zelle) ist über einen Regler einstellbar; die Anzahl der Zeilen und Spalten wird daraufhin automatisch neu berechnet
 
 **Spielfeld füllen**
 - **Random:** füllt das Spielfeld zufällig; der Anteil lebender Zellen ist über einen Regler einstellbar (0–100 %)
@@ -100,7 +103,6 @@ Für das Projekt wird nur ein aktuelles JDK benötigt. Externe Bibliotheken sind
 ## Status
 
 Das Programm ist funktionsfähig. Mögliche Erweiterungen:
-- Das Spielfeld automatisch an die Bildschirmgröße anpassen
 - Eine eigene Farbe pro Muster
 - Anzeige der Rechenzeit pro Generation und paralleles Rechnen
 

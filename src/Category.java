@@ -1,3 +1,5 @@
+// this Class determines the categories of the patterns
+
 public enum Category {
     // CONSTANTS
     ALL("All patterns", ""),
@@ -16,13 +18,13 @@ public enum Category {
     private final String displayName;
     private final String description;
 
+    // CONSTRUCTOR
     Category(String displayName, String description){
         this.displayName = displayName;
         this.description = description;
-
     }
 
-    // GETTERS
+    // getters
     public String getDisplayName() {
         return displayName;
     }

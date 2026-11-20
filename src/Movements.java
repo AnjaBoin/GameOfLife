@@ -2,10 +2,11 @@ import javax.swing.*;
 import java.awt.event.*;
 
 
+// this Class sets mouse activities
 
 public class Movements extends MouseAdapter {
 
-    // variables
+    // VARIABLES
     private Board board;
     private Cells cells;
     private JComboBox<Patterns> patternBox;
@@ -15,7 +16,7 @@ public class Movements extends MouseAdapter {
     // CONSTANTS
     private static final int STAMP_DELAY = 50;
 
-    // constructor
+    // CONSTRUCTOR
     public Movements(Board board, Cells cells, JComboBox<Patterns> patternBox, JToggleButton drawToggle){
         this.board = board;
         this.cells = cells;
@@ -63,7 +64,6 @@ public class Movements extends MouseAdapter {
             placePatternCentered(pattern, mousePosRow, mousePosCol);
             resetPatternTimer();
         }
-
         cells.repaint();
     }
 
@@ -98,8 +98,4 @@ public class Movements extends MouseAdapter {
         }
         cells.repaint();
     }
-
-
-
-
 }

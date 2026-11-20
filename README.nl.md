@@ -24,8 +24,11 @@ Uit deze eenvoudige regels ontstaan verrassend complexe patronen: stabiele vorme
 **Simulatie**
 - Weergave van het speelveld als raster in een Swing-venster: levende cellen wit, dode cellen zwart
 - Berekening van de volgende generatie volgens de regels van Conway; cellen buiten het speelveld gelden als dood
-- Automatisch verloop via een Swing-timer (10 generaties per seconde), met een Start/Stop-knop
+- Automatisch verloop via een Swing-timer met een Start/Stop-knop; de vertraging tussen twee generaties (in milliseconden) is in te stellen met een spinner, en het speelveld wordt daarna automatisch bijgewerkt
+- Efficiënte weergave: het speelveld wordt eerst in een `BufferedImage` geschreven (één pixel per cel) en daarna in één keer vergroot getekend, in plaats van elke cel apart te tekenen met `fillRect`. Dat bespaart rekentijd (processorbelasting)
 - Efficiënte berekening: per generatie worden twee arrays omgewisseld, in plaats van steeds een nieuwe array te maken
+- Het venster opent gemaximaliseerd; het speelveld past zich automatisch aan de venstergrootte en daarmee aan de schermresolutie aan, ook als het venster later groter of kleiner wordt gemaakt. Bestaande cellen blijven daarbij behouden
+- De celgrootte (1–10 pixels per cel) is in te stellen met een spinner; het aantal rijen en kolommen wordt daarna automatisch opnieuw berekend
 
 **Het speelveld vullen**
 - **Random:** vult het speelveld willekeurig; het aandeel levende cellen is in te stellen met een spinner (0–100 %)
@@ -100,7 +103,6 @@ Het project heeft alleen een actuele JDK nodig. Externe bibliotheken zijn niet n
 ## Status
 
 Het programma is volledig werkend. Mogelijke uitbreidingen:
-- Het speelveld automatisch aanpassen aan de schermgrootte
 - Een eigen kleur per patroon
 - De rekentijd per generatie tonen, en parallel rekenen
 

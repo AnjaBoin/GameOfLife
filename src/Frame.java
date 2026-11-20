@@ -1,12 +1,11 @@
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// this Class sets the frame for the board with control panels
+
 public class Frame extends JFrame {
-    // this class sets the frame for the board with control panels
-    // use IntStream to thread and make programm run faster
 
     // CONSTANTS
     private static final int VALUE_SPINNER_CELL = 3;
@@ -26,6 +25,7 @@ public class Frame extends JFrame {
     private static final Color BACKGROUND_COLOR = Color.BLACK;
     private static final Color TEXT_COLOR = Color.GREEN.darker();
 
+    // VARIABLES
     private final Board board = new Board();
     private final Cells cells = new Cells(board);
     private JToggleButton drawToggle;
@@ -36,6 +36,7 @@ public class Frame extends JFrame {
     private JSpinner spinnerDensity;
     private JSpinner spinnerTimer;
 
+    // CONSTRUCTOR
     public Frame (){
         setTitle("Game of Life");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,8 +57,6 @@ public class Frame extends JFrame {
 
         // label on top that shows name and description of the selected category
         categoryInfo = createDescriptionLabel();
-        // this 1 line for adding label to the Frame
-        //add(categoryInfo, BorderLayout.NORTH);
         // these 2 lines for adding label to the Board
         cells.setLayout(new BorderLayout());
         cells.add(categoryInfo, BorderLayout.NORTH);
@@ -66,7 +65,7 @@ public class Frame extends JFrame {
 
         // Control panel layout
         panel.setLayout(new BorderLayout());
-        // BUttons panel in a wrapper to get same size for all buttons
+        // Buttons panel in a wrapper to get same size for all buttons
         JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonWrapper.add(panelButtons);
         panel.add(panelSettings, BorderLayout.NORTH);
@@ -80,7 +79,6 @@ public class Frame extends JFrame {
         setupMouse();
 
         // last piece; has to be at the end of the constructor
-        // adjusts frame to fit for items within it
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
@@ -109,8 +107,6 @@ public class Frame extends JFrame {
         categoryInfo.setBorder(BorderFactory.createEmptyBorder(8, 10, 8, 10));
         categoryInfo.setForeground(TEXT_COLOR);
         categoryInfo.setBackground(BACKGROUND_COLOR);
-        // this line for adding label to the frame
-        //categoryInfo.setOpaque(true);
         // this line for adding label to the board
         categoryInfo.setOpaque(false);
         return categoryInfo;
@@ -123,13 +119,12 @@ public class Frame extends JFrame {
         return button;
     }
 
-    // reads the spinner that sets the cell size
+    // reads the spinner that sets the delay between generations
     private void changeTimer(JSpinner spinner, Timer timer) {
         spinner.addChangeListener(e -> {
             int value = (int) spinner.getValue();
             timer.setDelay(value);
         });
-
     }
 
     // reads the spinner that sets the cell size
@@ -138,7 +133,6 @@ public class Frame extends JFrame {
             int value = (int) spinner.getValue();
             cells.setCellSize(value);
         });
-
     }
 
     // creates a button that fills the board randomly
@@ -152,7 +146,6 @@ public class Frame extends JFrame {
                 cells.repaint();
             }
         });
-
         return buttonSpinner;
     }
 
@@ -166,7 +159,6 @@ public class Frame extends JFrame {
                 cells.repaint();
             }
         });
-
         return buttonEmpty;
     }
 
@@ -185,7 +177,6 @@ public class Frame extends JFrame {
                 }
             }
         });
-
         return buttonTimer;
     }
 
@@ -206,7 +197,6 @@ public class Frame extends JFrame {
                 updateCategoryInfo();
             }
         });
-
         return categoryBox;
     }
 
@@ -256,7 +246,7 @@ public class Frame extends JFrame {
         return button;
     }
 
-    // creates a button that toggles mouse function
+    // Button that toggles mouse function
     private JToggleButton createToggleMouse() {
         JToggleButton button = new JToggleButton("Drawing off");
         button.setFont(STANDARD_FONT);
@@ -270,7 +260,6 @@ public class Frame extends JFrame {
                 }
             }
         });
-
         return button;
     }
 
@@ -278,7 +267,7 @@ public class Frame extends JFrame {
     // sets the layout for the settings panel
     private JPanel createSettingsPanel(Timer timer){
         JPanel panelSettings = new JPanel();
-
+        // defining spinners and comboboxes
         SpinnerNumberModel cellChooser = new SpinnerNumberModel(VALUE_SPINNER_CELL, MIN_SPINNER_CELL, MAX_SPINNER_CELL, STEP_SPINNER_CELL);
         SpinnerNumberModel densityChooser = new SpinnerNumberModel(VALUE_SPINNER, MIN_SPINNER, MAX_SPINNER, STEP_SPINNER);
         SpinnerNumberModel timerChooser = new SpinnerNumberModel(VALUE_SPINNER_TIMER, MIN_SPINNER_TIMER, MAX_SPINNER_TIMER, STEP_SPINNER_TIMER);
@@ -292,7 +281,7 @@ public class Frame extends JFrame {
         filterPatterns();
         patternBox.setPreferredSize(patternBox.getPreferredSize());
         categoryBox.setPreferredSize(categoryBox.getPreferredSize());
-
+        // adding items to the panel including labels
         panelSettings.add(createLabel("Delay ms"));
         panelSettings.add(spinnerTimer);
         panelSettings.add(createLabel("Cell size"));
@@ -323,6 +312,5 @@ public class Frame extends JFrame {
 
         return panelButtons;
     }
-
 }
 

@@ -1,7 +1,4 @@
-
-
-// puts startpatterns on the board
-// list of patterns as cells, this class turns those cells on
+// this Class list of patterns as cells and translates patterns as boolean arrays for the board
 
 public enum Patterns {
     //CONSTANTS
@@ -492,14 +489,12 @@ public enum Patterns {
                     throw new IllegalArgumentException(
                     String.format("Pattern %s has another char in the String than . or O in row %d and in character %d", displayName, row, character));
                 }
-
             }
         }
-
         return pattern;
     }
 
-    // Amendment, so JCombo Dropdown will show names
+    // Amendment, so JCombo Dropdown will show names of the patterns
     @Override
     public String toString() {
         return displayName;
